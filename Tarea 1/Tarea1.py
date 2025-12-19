@@ -89,7 +89,7 @@ def cartas6(n):
 #-------------------------------EJERCICIO 7-------------------------------#
 def cartas7(n):
 	exitos = 0
-	cartas = [2]*4 + [3]*4 + [4]*4 + [5]*4 + [6]*4 + [7]*4 + [8]*4 + [9]*4 + [10]*16 + ["A"]*4
+	cartas = [2]*4 + [3]*4 + [4]*4 + [5]*4 + [6]*4 + [7]*4 + [8]*4 + [9]*4 + [10]*4+ [11]*4 + [12]*4 + [13]*4 + ["A"]*4
 	for _ in range(n):
 		random.shuffle(cartas)
 		suma=0
@@ -100,9 +100,9 @@ def cartas7(n):
 			else:
 				suma+=cartas[i]
 		while As:
-			if (suma+11+As-1)<=21: #Problema, no se cuanto vale un As y no se me ocurre una toma decisiones
+			if (suma+14+As-1)<=21: #Problema, no se cuanto vale un As y no se me ocurre una toma decisiones
 			#si el As vale 1 o 11 
-				suma+=11
+				suma+=14
 			else:
 				suma+=1
 			As-=1
@@ -188,3 +188,74 @@ def simulacion9(P_TS1, P_S1F, P_TS2, P_S2F):
 # print(f" Simulacion a = {simulacionA}")
 # print(f"b: P(T->F) = {ejercicio9b}")
 # print(f" Simulacion b = {simulacionB}")
+
+def menu():
+    while True:
+        print("\n========== MENÚ DE EJERCICIOS ==========")
+        print("1. Ejercicio 2")
+        print("2. Ejercicio 3")
+        print("3. Ejercicio 4")
+        print("4. Ejercicio 5")
+        print("5. Ejercicio 6")
+        print("6. Ejercicio 7")
+        print("7. Ejercicio 8a")
+        print("8. Ejercicio 8b")
+        print("9. Ejercicio 9")
+        print("0. Salir")
+
+        opcion = input("Seleccione una opción: ")
+
+        if opcion == "1":
+            n = int(input("Número de simulaciones: "))
+            c = int(input("Número de caras deseadas (0–3): "))
+            print("Probabilidad:", monedas(n, c))
+
+        elif opcion == "2":
+            print("Mostrando gráfica...")
+            ejercicio3()
+
+        elif opcion == "3":
+            n = int(input("Número de simulaciones: "))
+            print("Probabilidad:", cartas4(n))
+
+        elif opcion == "4":
+            n = int(input("Número de simulaciones: "))
+            print("Probabilidad:", cartas5(n))
+
+        elif opcion == "5":
+            n = int(input("Número de simulaciones: "))
+            print("Probabilidad:", cartas6(n))
+
+        elif opcion == "6":
+            n = int(input("Número de simulaciones: "))
+            print("Probabilidad:", cartas7(n))
+
+        elif opcion == "7":
+            n = int(input("Número de simulaciones: "))
+            print("Probabilidad de éxito:", juego8a(n))
+
+        elif opcion == "8":
+            n = int(input("Número de simulaciones: "))
+            print("Probabilidad de éxito:", juego8b(n))
+
+        elif opcion == "9":
+            P_TS1 = float(input("P(T→S1): "))
+            P_S1F = float(input("P(S1→F): "))
+            P_TS2 = float(input("P(T→S2): "))
+            P_S2F = float(input("P(S2→F): "))
+
+            teorico = ejercicio9(P_TS1, P_S1F, P_TS2, P_S2F)
+            sim = simulacion9(P_TS1, P_S1F, P_TS2, P_S2F)
+
+            print("Probabilidad teórica:", teorico)
+            print("Probabilidad simulada:", sim)
+
+        elif opcion == "0":
+            print("Saliendo del programa...")
+            break
+
+        else:
+            print("Opción inválida. Intente de nuevo.")
+
+
+#menu()
