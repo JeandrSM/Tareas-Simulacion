@@ -15,10 +15,8 @@ def monedas(n,c):
 				exitos+=1
 	return exitos/n
 
-#print(monedas(10000, 0))
-#print(monedas(10000, 1))
-#print(monedas(10000, 2))
-#print(monedas(10000, 3))
+#2f La distribucion que sigue este experimento es una binomial 
+#   siendo un ensayo de Bernoulli, los eventos son independientes y se tiene un numero de ensayos fijos  
 
 #-------------------------------EJERCICIO 3-------------------------------#
 def binomial(n, p):
@@ -64,6 +62,10 @@ def cartas4(n):
 		if mano[0]=="A" and mano[1]=="A":
 			exitos +=1
 	return exitos/n
+
+#4a. La probabilidad de que ambos sean ases es de 4/52 * 3/51, esto debido a que el experimento no tiene reposicion de cartas 
+#    cada mazo cuenta con 52 cartas (4 ases) 
+
 #-------------------------------EJERCICIO 5-------------------------------#
 def cartas5(n):
 	exitos = 0
@@ -73,6 +75,10 @@ def cartas5(n):
 		if cartas[0]=="X":
 			exitos +=1
 	return exitos/n
+
+#5a. Cada palo del mazo cuenta con 13 cartas (52 en total), se pide la probabilidad de sacar treboles o espadas 
+#    siendo un total de 26 cartas, por lo tanto tiene una probabilidad de 13/52 + 13/52 = 0.5
+
 #-------------------------------EJERCICIO 6-------------------------------#
 def cartas6(n):
 	exitos = 0
@@ -83,9 +89,15 @@ def cartas6(n):
 		for i in range(5):
 			if cartas[i]=="A":
 				As+=1
-		if As==2:
+		if As>=2:
 			exitos+=1
 	return exitos/n
+
+#6a. Se utiliza una distribucion geometrica debido a ser un evento sin reposiciones, 
+#    se utiliza un grupo reducido de la poblacion total y hay una cantidad de exitos en la poblacion (2 > ases)
+#    Siendo la probabilidad de x=2 hasta 4 Σ(4Cx)*((52-4)C(5-x)) = 2162/54145 = 0.03992981808
+#                                                  (52C5)
+
 #-------------------------------EJERCICIO 7-------------------------------#
 def cartas7(n):
 	exitos = 0
@@ -100,8 +112,7 @@ def cartas7(n):
 			else:
 				suma+=cartas[i]
 		while As:
-			if (suma+14+As-1)<=21: #Problema, no se cuanto vale un As y no se me ocurre una toma decisiones
-			#si el As vale 1 o 11 
+			if (suma+14+As-1)<=21:
 				suma+=14
 			else:
 				suma+=1
@@ -207,8 +218,9 @@ def menu():
 
         if opcion == "1":
             n = int(input("Número de simulaciones: "))
-            c = int(input("Número de caras deseadas (0–3): "))
-            print("Probabilidad:", monedas(n, c))
+            print("\nProbabilidades según número de caras:")
+            for c in range(4):
+                print(f"Caras = {c} = {monedas(n, c)}")
 
         elif opcion == "2":
             print("Mostrando gráfica...")
@@ -258,4 +270,4 @@ def menu():
             print("Opción inválida. Intente de nuevo.")
 
 
-#menu()
+menu()
