@@ -95,7 +95,7 @@ def cartas6(n):
 
 #6a. Se utiliza una distribucion geometrica debido a ser un evento sin reposiciones, 
 #    se utiliza un grupo reducido de la poblacion total y hay una cantidad de exitos en la poblacion (2 > ases)
-#    Siendo la probabilidad de x=2 hasta 4 Σ(4Cx)*((52-4)C(5-x)) = 2162/54145 = 0.03992981808
+#    Siendo la probabilidad de x=2 hasta 4 Σ(4Cx)*((52-4)C(5-x)) = 2257/54145 = 0.04168436605
 #                                                  (52C5)
 
 #-------------------------------EJERCICIO 7-------------------------------#
@@ -271,3 +271,4 @@ def menu():
 
 
 menu()
+
