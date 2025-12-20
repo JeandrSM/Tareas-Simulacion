@@ -232,7 +232,9 @@ def simulacion9c(Tok_S1, S1_Flor, Tok_S2, S2_Flor, S1_S2, n):
     return exitos / N
 
 
-
+#  Pregunta c: Bajo estas condiciones, ¿qué tan fácil es calcular las nuevas probabilidades?
+# La dificultad aumenta por que ahora hay que tomar en cuenta que el fallo de un satélite ahora solo implique un camino, ambos satélites pueden enviarle el mensaje a otro para 
+# continuar ambas rutas, ahora existe la ruta de S1->F dado que haya llegado desde T-S2 y no T->S1.  P(S1->F desde T->S2) 
 
 # ejercicio9a = ejercicio9(0.9, 0.8, 0.9, 0.7)
 # simulacionA = simulacion9(0.9, 0.8, 0.9, 0.7)
@@ -333,6 +335,7 @@ def menu():
 
 
 menu()
+
 
 
 
