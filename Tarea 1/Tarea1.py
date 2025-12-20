@@ -155,30 +155,44 @@ def juego8b(n):
 #-------------------------------EJERCICIO 9-------------------------------#
 
 
-def ejercicio9(P_TS1, P_S1F, P_TS2, P_S2F):
-    # Probabilidad de éxito por cada ruta
-    P_S1 = P_TS1 * P_S1F
-    P_S2 = P_TS2 * P_S2F
-    # Probabilidad de que se envie el mensaje
+def ejercicio9(Tok_S1, S1_Flor, Tok_S2, S2_Flor):
+    #Éxito por cada ruta
+    P_S1 = Tok_S1 * S1_Flor
+    P_S2 = Tok_S2 * S2_Flor
+    #Éxito general
     P_TF = P_S1  +  P_S2 - P_S1 * P_S2
 
     return P_TF
 
+def ejercicio9_c(Tok_S1, S1_Flor, Tok_S2, S2_Flor, S1_S2):
 
-def simulacion9(P_TS1, P_S1F, P_TS2, P_S2F):
+    #Probabilidad de llegar a Florida dado que se llegó a S1
+    Flor_S1 = S1_Flor + (1 - S1_Flor) * S1_S2 * S2_Flor
+
+    #Probabilidad de llegar a Florida dado que se llegó a S2
+    Flor_S2 = S2_Flor + (1 - S2_Flor) * S1_S2 * S1_Flor
+
+    #Probabilidad total
+    P_TF = 1 - (1 - Tok_S1 * Flor_S1) * (1 - Tok_S2 * Flor_S2)
+
+    return P_TF
+
+
+def simulacion9(Tok_S1, S1_Flor, Tok_S2, S2_Flor):
     N = 1000000
 
     exitos = 0
 
     for _ in range(N):
         exito = False
-
-        if random.random() < P_TS1:
-            if random.random() < P_S1F:
+        
+        #Desde S1
+        if random.random() < Tok_S1:
+            if random.random() < S1_Flor:
                 exito = True
-
-        if random.random() < P_TS2:
-            if random.random() < P_S2F:
+        #Desde S2
+        if random.random() < Tok_S2 and not exito:
+            if random.random() < S2_Flor:
                 exito = True
 
         if exito:
@@ -187,15 +201,56 @@ def simulacion9(P_TS1, P_S1F, P_TS2, P_S2F):
     return exitos / N
 
 
+
+def simulacion9c(Tok_S1, S1_Flor, Tok_S2, S2_Flor, S1_S2):
+    N = 1000000
+    exitos = 0
+
+    for _ in range(N):
+        exito = False
+
+        # Desde S1
+        if random.random() < Tok_S1:
+            if random.random() < S1_Flor:
+                exito = True
+            else:
+                if random.random() < S1_S2:
+                    if random.random() < S2_Flor:
+                        exito = True
+
+        # Desde S2
+        if random.random() < Tok_S2 and not exito:
+            if random.random() < S2_Flor:
+                exito = True
+            else:
+                if random.random() < S1_S2:
+                    if random.random() < S1_Flor:
+                        exito = True
+
+        if exito:
+            exitos += 1
+
+    return exitos / N
+
+
+
 # ejercicio9a = ejercicio9(0.9, 0.8, 0.9, 0.7)
 # simulacionA = simulacion9(0.9, 0.8, 0.9, 0.7)
+
 # ejercicio9b = ejercicio9(0.9, 0.8, 0.9, 0.8)
 # simulacionB = simulacion9(0.9, 0.8, 0.9, 0.8)
+
+# ejercicio9c = ejercicio9_c(0.9, 0.8, 0.9, 0.7, 0.8)
+# simulacionC = simulacion9c(0.9, 0.8, 0.9, 0.7, 0.8)
 
 # print(f"a: P(T->F) = {ejercicio9a}")
 # print(f" Simulacion a = {simulacionA}")
 # print(f"b: P(T->F) = {ejercicio9b}")
 # print(f" Simulacion b = {simulacionB}")
+# print(f"c: P(T->F) = {ejercicio9c}")
+# print(f" Simulacion c = {simulacionC}")
+
+
 
 def menu():
     while True:
@@ -248,16 +303,45 @@ def menu():
             print("Probabilidad de éxito:", juego8b(n))
 
         elif opcion == "9":
-            P_TS1 = float(input("P(T→S1): "))
-            P_S1F = float(input("P(S1→F): "))
-            P_TS2 = float(input("P(T→S2): "))
-            P_S2F = float(input("P(S2→F): "))
-
-            teorico = ejercicio9(P_TS1, P_S1F, P_TS2, P_S2F)
-            sim = simulacion9(P_TS1, P_S1F, P_TS2, P_S2F)
-
-            print("Probabilidad teórica:", teorico)
-            print("Probabilidad simulada:", sim)
+    
+		    sub = input("Seleccione el caso (a/b/c): ").lower()
+		
+		    if sub == "a":
+		        print("\nCaso (a)")
+		        P_TS1 = float(input("P(T→S1): "))
+		        P_S1F = float(input("P(S1→F): "))
+		        P_TS2 = float(input("P(T→S2): "))
+		        P_S2F = float(input("P(S2→F): "))
+		
+		        teorico = ejercicio9(P_TS1, P_S1F, P_TS2, P_S2F)
+		        sim = simulacion9(P_TS1, P_S1F, P_TS2, P_S2F)
+		
+		    elif sub == "b":
+		        print("\nCaso (b)")
+		        P_TS1 = float(input("P(T→S1): "))
+		        P_S1F = float(input("P(S1→F): "))
+		        P_TS2 = float(input("P(T→S2): "))
+		        P_S2F = float(input("P(S2→F): "))
+		
+		        teorico = ejercicio9(P_TS1, P_S1F, P_TS2, P_S2F)
+		        sim = simulacion9(P_TS1, P_S1F, P_TS2, P_S2F)
+		
+		    elif sub == "c":
+		        print("\nCaso (c)")
+		        P_TS1 = float(input("P(T→S1): "))
+		        P_S1F = float(input("P(S1→F): "))
+		        P_TS2 = float(input("P(T→S2): "))
+		        P_S2F = float(input("P(S2→F): "))
+		        P_S1S2 = float(input("P(S1-S2): "))
+		
+		        teorico = ejercicio9_c(P_TS1, P_S1F, P_TS2, P_S2F, P_S1S2)
+		        sim = simulacion9c(P_TS1, P_S1F, P_TS2, P_S2F, P_S1S2)
+		
+		    else:
+		        print("Opción inválida.")
+		
+		    print(f" Probabilidad Calculada", teorico:)
+		    print(f" Probabilidad simulada:", sim)
 
         elif opcion == "0":
             print("Saliendo del programa...")
@@ -268,5 +352,6 @@ def menu():
 
 
 menu()
+
 
 
