@@ -165,21 +165,19 @@ def ejercicio9(Tok_S1, S1_Flor, Tok_S2, S2_Flor):
     return P_TF
 
 def ejercicio9_c(Tok_S1, S1_Flor, Tok_S2, S2_Flor, S1_S2):
+    # Probabilidades de éxito por cada ruta
+    P1 = Tok_S1 * S1_Flor                 # Tokio -> S1 -> Florida
+    P2 = Tok_S2 * S2_Flor                 # Tokio -> S2 -> Florida
+    P3 = Tok_S1 * (1 - S1_Flor) * S1_S2 * S2_Flor   # Tokio -> S1 -> S2 -> Florida
+    P4 = Tok_S2 * (1 - S2_Flor) * S1_S2 * S1_Flor   # Tokio -> S2 -> S1 -> Florida
 
-    #Probabilidad de llegar a Florida dado que se llegó a S1
-    Flor_S1 = S1_Flor + (1 - S1_Flor) * S1_S2 * S2_Flor
-
-    #Probabilidad de llegar a Florida dado que se llegó a S2
-    Flor_S2 = S2_Flor + (1 - S2_Flor) * S1_S2 * S1_Flor
-
-    #Probabilidad total
-    P_TF = 1 - (1 - Tok_S1 * Flor_S1) * (1 - Tok_S2 * Flor_S2)
+    # Probabilidad de llegar a Florida
+    P_TF = 1 - (1 - P1) * (1 - P2) * (1 - P3) * (1 - P4)
 
     return P_TF
 
-
-def simulacion9(Tok_S1, S1_Flor, Tok_S2, S2_Flor):
-    N = 1000000
+def simulacion9(Tok_S1, S1_Flor, Tok_S2, S2_Flor, n):
+    N = n
 
     exitos = 0
 
@@ -202,35 +200,37 @@ def simulacion9(Tok_S1, S1_Flor, Tok_S2, S2_Flor):
 
 
 
-def simulacion9c(Tok_S1, S1_Flor, Tok_S2, S2_Flor, S1_S2):
-    N = 1000000
+def simulacion9c(Tok_S1, S1_Flor, Tok_S2, S2_Flor, S1_S2, n):
+    N = n
     exitos = 0
 
     for _ in range(N):
         exito = False
+        S1 = False
+        S2 = False
 
-        # Desde S1
         if random.random() < Tok_S1:
-            if random.random() < S1_Flor:
-                exito = True
-            else:
-                if random.random() < S1_S2:
-                    if random.random() < S2_Flor:
-                        exito = True
+            S1 = True
+        if random.random() < Tok_S2:
+            S2 = True
 
-        # Desde S2
-        if random.random() < Tok_S2 and not exito:
-            if random.random() < S2_Flor:
-                exito = True
-            else:
-                if random.random() < S1_S2:
-                    if random.random() < S1_Flor:
-                        exito = True
+        if S1 and not S2:
+            if random.random() < S1_S2:
+                S2 = True
+        if S2 and not S1:
+            if random.random() < S1_S2:
+                S1 = True
+
+        if S1 and random.random() < S1_Flor:
+            exito = True
+        if S2 and random.random() < S2_Flor:
+            exito = True
 
         if exito:
             exitos += 1
 
     return exitos / N
+
 
 
 
@@ -304,14 +304,16 @@ def menu():
 
         elif opcion == "9":
 
+            n = int(input("Número de simulaciones: "))
+
             ejercicio9a = ejercicio9(0.9, 0.8, 0.9, 0.7)
-            simulacionA = simulacion9(0.9, 0.8, 0.9, 0.7)
+            simulacionA = simulacion9(0.9, 0.8, 0.9, 0.7, n)
   
             ejercicio9b = ejercicio9(0.9, 0.8, 0.9, 0.8)
-            simulacionB = simulacion9(0.9, 0.8, 0.9, 0.8)
+            simulacionB = simulacion9(0.9, 0.8, 0.9, 0.8, n)
 
             ejercicio9c = ejercicio9_c(0.9, 0.8, 0.9, 0.7, 0.8)
-            simulacionC = simulacion9c(0.9, 0.8, 0.9, 0.7, 0.8)
+            simulacionC = simulacion9c(0.9, 0.8, 0.9, 0.7, 0.8, n)
 
             print(f"\n")
             print(f"a: P(T->F) = {ejercicio9a}")
@@ -334,4 +336,4 @@ menu()
 
 
 
-s
+
