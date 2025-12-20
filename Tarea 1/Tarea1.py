@@ -165,13 +165,13 @@ def ejercicio9(Tok_S1, S1_Flor, Tok_S2, S2_Flor):
     return P_TF
 
 def ejercicio9_c(Tok_S1, S1_Flor, Tok_S2, S2_Flor, S1_S2):
-    # Probabilidades de éxito por cada ruta
+    #Probabilidad de éxito por cada ruta
     P1 = Tok_S1 * S1_Flor                 # Tokio -> S1 -> Florida
     P2 = Tok_S2 * S2_Flor                 # Tokio -> S2 -> Florida
     P3 = Tok_S1 * (1 - S1_Flor) * S1_S2 * S2_Flor   # Tokio -> S1 -> S2 -> Florida
     P4 = Tok_S2 * (1 - S2_Flor) * S1_S2 * S1_Flor   # Tokio -> S2 -> S1 -> Florida
 
-    # Probabilidad de llegar a Florida
+    #Probabilidad de llegar a Florida
     P_TF = 1 - (1 - P1) * (1 - P2) * (1 - P3) * (1 - P4)
 
     return P_TF
@@ -333,6 +333,7 @@ def menu():
 
 
 menu()
+
 
 
 
