@@ -303,51 +303,23 @@ def menu():
             print("Probabilidad de éxito:", juego8b(n))
 
         elif opcion == "9":
-            print("\n--- EJERCICIO 9 ---")
-            print("a) Red original")
-            print("b) Mejora en S2")
-            print("c) Comunicación entre S1 S2")
 
-            sub = input("Seleccione el caso (a/b/c): ").lower()
+            ejercicio9a = ejercicio9(0.9, 0.8, 0.9, 0.7)
+            simulacionA = simulacion9(0.9, 0.8, 0.9, 0.7)
+  
+            ejercicio9b = ejercicio9(0.9, 0.8, 0.9, 0.8)
+            simulacionB = simulacion9(0.9, 0.8, 0.9, 0.8)
 
-            if sub == "a":
-                print("\nCaso (a)")
-                P_TS1 = float(input("P(T→S1): "))
-                P_S1F = float(input("P(S1→F): "))
-                P_TS2 = float(input("P(T→S2): "))
-                P_S2F = float(input("P(S2→F): "))
+            ejercicio9c = ejercicio9_c(0.9, 0.8, 0.9, 0.7, 0.8)
+            simulacionC = simulacion9c(0.9, 0.8, 0.9, 0.7, 0.8)
 
-                teorico = ejercicio9(P_TS1, P_S1F, P_TS2, P_S2F)
-                sim = simulacion9(P_TS1, P_S1F, P_TS2, P_S2F)
-
-            elif sub == "b":
-                print("\nCaso (b)")
-                P_TS1 = float(input("P(T→S1): "))
-                P_S1F = float(input("P(S1→F): "))
-                P_TS2 = float(input("P(T→S2): "))
-                P_S2F = float(input("P(S2→F): "))
-
-                teorico = ejercicio9(P_TS1, P_S1F, P_TS2, P_S2F)
-                sim = simulacion9(P_TS1, P_S1F, P_TS2, P_S2F)
-
-            elif sub == "c":
-                print("\nCaso (c)")
-                P_TS1 = float(input("P(T→S1): "))
-                P_S1F = float(input("P(S1→F): "))
-                P_TS2 = float(input("P(T→S2): "))
-                P_S2F = float(input("P(S2→F): "))
-                P_S1S2 = float(input("P(S1↔S2): "))
-
-                teorico = ejercicio9_c(P_TS1, P_S1F, P_TS2, P_S2F, P_S1S2)
-                sim = simulacion9c(P_TS1, P_S1F, P_TS2, P_S2F, P_S1S2)
-
-            else:
-                print("Opción inválida.")
-                continue
-
-            print("\nResultados:")
-            print(f" Probabilidad calculada", teorico)
-            print(f" Probabilidad simulada", sim)
+            print(f"\n")
+            print(f"a: P(T->F) = {ejercicio9a}")
+            print(f" Simulacion a = {simulacionA}")
+            print(f"b: P(T->F) = {ejercicio9b}")
+            print(f" Simulacion b = {simulacionB}")
+            print(f"c: P(T->F) = {ejercicio9c}")
+            print(f" Simulacion c = {simulacionC}")
 
 
         elif opcion == "0":
@@ -358,7 +330,8 @@ def menu():
             print("Opción inválida. Intente de nuevo.")
 
 
-        menu()
+menu()
 
 
 
+s
