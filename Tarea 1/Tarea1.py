@@ -27,10 +27,9 @@ def binomial(n, p):
     return exitos
 
 
-def ejercicio3():
+def ejercicio3(N):
     n = 3
     p = 0.5
-    N = 1000000
 
     frecuencias = [0] * (n + 1)
 
@@ -277,8 +276,8 @@ def menu():
                 print(f"Caras = {c} = {monedas(n, c)}")
 
         elif opcion == "2":
-            print("Mostrando gráfica...")
-            ejercicio3()
+            n = int(input("Número de simulaciones: "))
+            ejercicio3(n)
 
         elif opcion == "3":
             n = int(input("Número de simulaciones: "))
@@ -335,6 +334,7 @@ def menu():
 
 
 menu()
+
 
 
 
