@@ -50,7 +50,6 @@ def ejercicio3():
 
 
 
-#ejercicio3()
 
 #-------------------------------EJERCICIO 4-------------------------------#
 def cartas4(n):
@@ -121,7 +120,6 @@ def cartas7(n):
 			exitos+=1
 	return exitos/n
 
-#print(cartas7(100000))
 #-------------------------------EJERCICIO 8-------------------------------#
 def juego8a(n):
 	exitos=0
@@ -154,7 +152,6 @@ def juego8b(n):
 			exitos+=1
 	return exitos/n
 
-#print(juego8b(1000000))
 #-------------------------------EJERCICIO 9-------------------------------#
 
 
@@ -271,4 +268,5 @@ def menu():
 
 
 menu()
+
 
