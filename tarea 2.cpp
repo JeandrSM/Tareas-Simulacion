@@ -39,6 +39,7 @@ long long int congruMixto(long long int n, long long int a, long long int c, lon
 bool revisarM(long long int semilla, long long int a, long long int c, long long int m){
 	vector<bool> visto(m, false);
     for(long long int i=0; i<m; i++){
+    	cout<<semilla<<endl;
         if(visto[semilla]){
             cout<<"Fallo en : "<<semilla<<" En el i :"<<i<<endl;
             return false;
@@ -144,6 +145,28 @@ int main() {
     */
     /*
     if(revisarM(19, 211, 0, 100000000)){
+        cout<<"Todo bien"<<endl;
+    } else {cout<<"Todo mal"<<endl;}
+    */
+    /*
+    if(revisarM(1, 16, 4, 15)){
+        cout<<"Todo bien"<<endl;
+    } else {cout<<"Todo mal"<<endl;}
+    Este funciona por esto:
+    Para numeros entre 0 a 14, solo esta el M= 15 (Por ser los que componen el modulo)
+    Para sacar un buen C, se ocupa que el maximo comun divisor de C,M sea 1 (coprimos) 
+    15 y 4 son coprimos
+    Para sacar un buen a, se ocupa (a-1)mod(factorizacion prima de M) sea 0
+    (a-1)mod(3) y (a-1)mod(5), el a que cumple eso es 16
+    */
+    /*
+    if(revisarM(1, 13, 2, 9)){
+        cout<<"Todo bien"<<endl;
+    } else {cout<<"Todo mal"<<endl;}
+    */
+    
+    /*
+    if(revisarM(1, 20, 5, 19)){
         cout<<"Todo bien"<<endl;
     } else {cout<<"Todo mal"<<endl;}
     */
