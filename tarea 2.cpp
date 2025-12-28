@@ -52,18 +52,20 @@ bool revisarM(long long int semilla, long long int a, long long int c, long long
 
 
 int main() {
-    /*
+    /* // Ejercicio 1
     int n = 6; // 0110, Si realiza todo el recorrido
     for (int i = 0; i <= 7; i++) {
         cout << n << endl;
         n = congruBin(n,3);
-    }
+    }  
     int n = 15; // 1111 No realiza todo el recorrido
     for (int i = 0; i <= 16; i++) {
         cout << n << endl;
         n = congruBin(n,4);
     }
 
+		
+		Ejercicio 2
     int n = 17; // Cosas muy raras de polinomios primitivos, pero al ser 2**5 -1 = 31 primo
     //sirve bien con el 0 y 1
     for (int i = 0; i <= 31; i++) {
@@ -71,7 +73,7 @@ int main() {
         n = congruBin(n,5);
     }
 
-    
+    	Ejercicio 3
     long long int x=3567345;
     for(int i=0; i<=50;i++){
     	cout<<i<<": "<<x<<endl;
@@ -90,7 +92,7 @@ int main() {
     	x=cuadraMedi(x);
     }
     */
-    
+    	//Ejercicio 4
     /*
     if(revisarM(7, 5, 24, 32)){
         cout<<"Todo bien"<<endl;
@@ -120,7 +122,7 @@ int main() {
         cout<<"Todo bien"<<endl;
     } else {cout<<"Todo mal"<<endl;}
     */
-    
+    //Ejercicio 5
     /*
     if(revisarM(7, 5, 0, 64)){
         cout<<"Todo bien"<<endl;
@@ -148,6 +150,7 @@ int main() {
         cout<<"Todo bien"<<endl;
     } else {cout<<"Todo mal"<<endl;}
     */
+	//Ejercicio 6
     /*
     if(revisarM(1, 16, 4, 15)){
         cout<<"Todo bien"<<endl;
@@ -159,18 +162,19 @@ int main() {
     Para sacar un buen a, se ocupa (a-1)mod(factorizacion prima de M) sea 0
     (a-1)mod(3) y (a-1)mod(5), el a que cumple eso es 16
     */
+	//Ejercicio 7
     /*
     if(revisarM(1, 13, 2, 9)){
         cout<<"Todo bien"<<endl;
     } else {cout<<"Todo mal"<<endl;}
     */
-    
+    //Ejercicio 8
     /*
     if(revisarM(1, 20, 5, 19)){
         cout<<"Todo bien"<<endl;
     } else {cout<<"Todo mal"<<endl;}
     */
-
+	//Ejercicio 9
 	/*
     if(revisarM(1, 1, 7, 10)){//Mixto
         cout<<"Todo bien"<<endl;
