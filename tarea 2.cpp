@@ -170,5 +170,17 @@ int main() {
         cout<<"Todo bien"<<endl;
     } else {cout<<"Todo mal"<<endl;}
     */
+
+	/*
+    if(revisarM(1, 1, 7, 10)){//Mixto
+        cout<<"Todo bien"<<endl;
+    } else {cout<<"Todo mal"<<endl;}
+    
+    
+    if(revisarM(1, 7, 0, 11)){//Multi
+        cout<<"Todo bien"<<endl;
+    } else {cout<<"Todo mal"<<endl;}
+	*/
+	
     return 0;
 }
