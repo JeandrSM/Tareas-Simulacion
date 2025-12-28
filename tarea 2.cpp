@@ -31,6 +31,24 @@ long long int cuadraMedi(long long int n){
 	return (n/pote)%10000;
 }
 
+long long int congruMixto(long long int n, long long int a, long long int c, long long int m){
+    __int128 temp = (__int128)n * a + c; //Chat dice que se hace así pero se ve diabolico eso
+    return (long long)(temp % m);
+}
+
+bool revisarM(long long int semilla, long long int a, long long int c, long long int m){
+	vector<bool> visto(m, false);
+    for(long long int i=0; i<m; i++){
+        if(visto[semilla]){
+            cout<<"Fallo en : "<<semilla<<" En el i :"<<i<<endl;
+            return false;
+        }
+        visto[semilla]=true;
+        semilla=congruMixto(semilla, a, c, m);
+    }
+    return true;
+}
+
 
 int main() {
     /*
@@ -72,6 +90,62 @@ int main() {
     }
     */
     
+    /*
+    if(revisarM(7, 5, 24, 32)){
+        cout<<"Todo bien"<<endl;
+    } else {cout<<"Todo mal"<<endl;}
+    */
     
+    /*
+    if(revisarM(8, 9, 13, 32)){
+        cout<<"Todo bien"<<endl;
+    } else {cout<<"Todo mal"<<endl;}
+    */
+    
+    /*
+    if(revisarM(13, 50, 17, 64)){
+        cout<<"Todo bien"<<endl;
+    } else {cout<<"Todo mal"<<endl;}
+    */
+    
+     /*
+    if(revisarM(15, 8, 16, 100)){
+        cout<<"Todo bien"<<endl;
+    } else {cout<<"Todo mal"<<endl;}
+    */
+    
+    /*
+    if(revisarM(3, 5, 21, 100)){
+        cout<<"Todo bien"<<endl;
+    } else {cout<<"Todo mal"<<endl;}
+    */
+    
+    /*
+    if(revisarM(7, 5, 0, 64)){
+        cout<<"Todo bien"<<endl;
+    } else {cout<<"Todo mal"<<endl;}
+    */
+    
+    /*
+    if(revisarM(9, 11, 0, 128)){
+        cout<<"Todo bien"<<endl;
+    } else {cout<<"Todo mal"<<endl;}
+    */
+    
+    /*
+    if(revisarM(3, 221, 0, 1000)){
+        cout<<"Todo bien"<<endl;
+    } else {cout<<"Todo mal"<<endl;}
+    */
+    /*
+    if(revisarM(17, 203, 0, 100000)){
+        cout<<"Todo bien"<<endl;
+    } else {cout<<"Todo mal"<<endl;}
+    */
+    /*
+    if(revisarM(19, 211, 0, 100000000)){
+        cout<<"Todo bien"<<endl;
+    } else {cout<<"Todo mal"<<endl;}
+    */
     return 0;
 }
