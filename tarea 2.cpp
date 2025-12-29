@@ -173,11 +173,11 @@ void ejercicio6(){
     if(conMixto(1,16,4,15, true)) cout << "---Si Cumple con el Periodo---" << endl; else cout << "---No Cumple con el Periodo---" << endl;
     /*
     Este funciona por esto:
-    Para numeros entre 0 a 14, solo esta el M= 15 (Por ser los que componen el modulo)
+    Para numeros entre 0 a 14, esta el M >= 15 (Por ser los que componen el modulo)
     Para sacar un buen C, se ocupa que el maximo comun divisor de C,M sea 1 (coprimos) 
     15 y 4 son coprimos
     Para sacar un buen a, se ocupa (a-1)mod(factorizacion prima de M) sea 0
-    (a-1)mod(3) y (a-1)mod(5), el a que cumple eso es 16
+    (a-1)mod(3) y (a-1)mod(5), cumple eso el 16
     */
 }
 
