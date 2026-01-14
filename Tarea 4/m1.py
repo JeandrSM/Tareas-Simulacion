@@ -2,9 +2,7 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 
-# -------------------------
-# FUNCIONES DE FRECUENCIAS ESPERADAS
-# -------------------------
+
 def binomial(fo, n):
     N = len(fo) - 1
     # calcular p
@@ -63,9 +61,7 @@ def calcular_media_varianza(fo):
     return media, varianza
 
 
-# -------------------------
-# CHI CUADRADO Y TABLA K-S
-# -------------------------
+
 def ChiCuadrado(fe, fo, critico):
     Chi2 = 0
     print("\n{:>3} {:>5} {:>8} {:>10}".format("i","FO","FE","(FO-FE)^2/FE"))
@@ -118,9 +114,7 @@ def tabla_ks(fe, fo):
     if (D_max <= D_critico): print(f"El valor de d <= {D_critico:4f} se acepta la hipotesis de H0 como verdadera.") 
     else: print(f"El valor de d > {D_critico:4f} se rechaza la hipotesis de H0.")
 
-# -------------------------
-# HISTOGRAMA
-# -------------------------
+
 def grafico_barras(fo, fe, titulo):
     """
     Grafica frecuencias observadas y esperadas para números discretos del 0 al 9.
@@ -157,9 +151,7 @@ def grafico_barras(fo, fe, titulo):
     plt.show()
 
 
-# -------------------------
-# FUNCION PRINCIPAL
-# -------------------------
+
 def frecuancia(nombre_archivo):
     datos = np.loadtxt(nombre_archivo, dtype=int)
     n = len(datos)
@@ -207,7 +199,6 @@ def frecuancia(nombre_archivo):
     tabla_ks(FE_tabla, FO_tabla)
     grafico_barras(FO_tabla, FE_tabla, "Tabla de Probabilidad")
 
-# -------------------------
-# EJECUCION
-# -------------------------
+
 frecuancia("m1.txt")
+
