@@ -3,9 +3,7 @@ import math
 import matplotlib.pyplot as plt
 from scipy.stats import gamma, beta, norm
 
-# -------------------------
-# FUNCIONES AUXILIARES
-# -------------------------
+
 def separar_datos(datos):
     menores = []
     mayores = []
@@ -37,9 +35,7 @@ def frecuencias(datos, bins):
 
     return fo, limites
 
-# -------------------------
-# CHI CUADRADO
-# -------------------------
+
 def ChiCuadrado(fe, fo, limites, critico):
     Chi2 = 0
     print("\n{:>5} {:>15} {:>8} {:>12} {:>12}".format(
@@ -90,9 +86,7 @@ def grafico_barras(fo, fe, limites, titulo):
     plt.tight_layout()
     plt.show()
 
-# -------------------------
-# TABLA KOLMOGOROV-SMIRNOV
-# -------------------------
+
 def tabla_ks(datos, fe, limites):
     n = len(datos)
     fo, _ = frecuencias(datos, len(limites))
@@ -124,9 +118,6 @@ def tabla_ks(datos, fe, limites):
     if (D_max <= D_critico): print(f"El valor de d <= {D_critico:4f} se acepta la hipotesis de H0 como verdadera.") 
     else: print(f"El valor de d > {D_critico:4f} se rechaza la hipotesis de H0.")
 
-# -------------------------
-# PRUEBAS UNIFORME, NORMAL, GAMMA, BETA
-# -------------------------
 def prueba_uniforme(datos, bins):
     print("\n================ PRUEBA UNIFORME ================")
     fo, limites = frecuencias(datos, bins)
@@ -278,9 +269,7 @@ def prueba_beta(datos, bins):
     print("\nTabla K-S Beta:")
     tabla_ks(datos, fe, limites)
 
-# -------------------------
-# FUNCION PRINCIPAL
-# -------------------------
+
 def analizar_muestra(archivo):
     datos = np.loadtxt(archivo)
     menores, mayores = separar_datos(datos)
@@ -298,8 +287,7 @@ def analizar_muestra(archivo):
     prueba_gamma(mayores, 8)
     prueba_beta(mayores, 8)
 
-# -------------------------
-# EJECUCION
-# -------------------------
+
 archivo = "m15.txt"
 analizar_muestra(archivo)
+
