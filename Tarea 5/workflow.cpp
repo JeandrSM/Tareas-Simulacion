@@ -88,6 +88,13 @@ double duracionPollo(double p = 0.1) {
     return static_cast<double>(minutos);
 }
 
+int cantProductos(){
+    unsigned seed = high_resolution_clock::now().time_since_epoch().count();
+    mt19937 gen(seed);
+    binomial_distribution <int> bino(5, 2.0/5.0);
+    return bino(gen);
+}
+
 struct Servidor {
     double tiempoOcupadoHasta; 
     int id;                     
@@ -129,21 +136,40 @@ struct Estacion {
     
 };
 
-pair<double,double> duracion(const string& puesto) {
+double duracion(const string& puesto) {
     if (puesto == "Caja") {
-        return {duracionCaja(), 1.00};
+        return duracionCaja();
     } 
     if (puesto == "Refrescos") {
-        return {duracionRefre(), 0.9};
+        return duracionRefre();
     }
     if (puesto == "Freidora") {
-        return {duracionFrei(), 0.7};
+        return duracionFrei();
     }
     if (puesto == "Postres") {
-        return {duracionPost(), 0.25};
+        return duracionPost();
     }
     if (puesto == "Pollo") {
-        return {duracionPollo(), 0.3};
+        return duracionPollo();
+    }
+    
+}
+
+double proba(const string& puesto) {
+    if (puesto == "Caja") {
+        return 1.00;
+    } 
+    if (puesto == "Refrescos") {
+        return 0.9;
+    }
+    if (puesto == "Freidora") {
+        return 0.7;
+    }
+    if (puesto == "Postres") {
+        return 0.25;
+    }
+    if (puesto == "Pollo") {
+        return  0.3;
     }
     
 }
@@ -160,28 +186,35 @@ vector<double> simulacion(Estacion &puesto, vector<double> llegadas){
     
     for(int i = 0; i < llegadas.size(); i++) {
         double llegada = llegadas[i];
-        pair<double,double> val = duracion(puesto.nombre);
-        double duracionC = val.first;
-        double p = val.second;
+        double p = proba(puesto.nombre);
         double tiro = random01();
-        if(tiro >= p) {cout << "No come, p = " << p << endl; continue;}
+        if(tiro >= p) {cout << "No come, p = " << tiro << endl; continue;}
+        int n = 1;
+        if(puesto.nombre != "Caja"){
+            n = cantProductos();
+            cout << "Pidió " << n << " productos" << endl;
+        }
 
-        pair<double, int> resultado = puesto.procesarCliente(llegada, duracionC);
+        for(int j = 0; j<n; j++){
 
-        double salidaPuesto = resultado.first;
-        int serv = resultado.second;
+            double duracionC = duracion(puesto.nombre);
 
-        salidas.push_back(salidaPuesto);
-        
-        double tiempoSistema = salidaPuesto - llegada;
-        mediaEspera += tiempoSistema;
+            pair<double, int> resultado = puesto.procesarCliente(llegada, duracionC);
 
-        cout << fixed << setprecision(4);
-        cout << llegada << "\t\t"
-             << duracionC << "\t\t"
-             << serv+1 << "\t\t"
-             << salidaPuesto << "\t\t"
-             << tiempoSistema << endl;
+            double salidaPuesto = resultado.first;
+            int serv = resultado.second;
+
+            salidas.push_back(salidaPuesto);
+            
+            double tiempoSistema = salidaPuesto - llegada;
+            mediaEspera += tiempoSistema;
+
+            cout << fixed << setprecision(4);
+            cout << llegada << "\t\t"
+                << duracionC << "\t\t"
+                << serv+1 << "\t\t"
+                << salidaPuesto << "\t\t"
+                << tiempoSistema << endl;}
     }
     
     cout << "====================================================================" << endl;
