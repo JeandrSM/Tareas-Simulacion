@@ -37,10 +37,69 @@ vector<double> binomial(int n, double p){
 
 
 double random01(){
-    unsigned seed = high_resolution_clock::now().time_since_epoch().count();
-    mt19937 gen(seed);
-    uniform_real_distribution<double> numero(0.0, 1.0);
-    return numero(gen);
+    static mt19937 gen(random_device{}());
+    static uniform_real_distribution<double> dist(0.0,1.0);
+    return dist(gen);
+}
+
+double normalPDF(double x){
+    double exponente = -0.5 * ((x-3.0)*(x-3.0));
+    return (1.0/(sqrt(2.0*M_PI)))*exp(exponente);
+}
+
+
+double simpson(double a, double b, int n){
+    double h = (b-a)/n;
+    double suma = normalPDF(a)+normalPDF(b);
+    for(int i = 1; i<n; i+=2){
+        suma += 4.0 * normalPDF(a+i*h);
+    }
+    for (int i = 2; i < n ; i+=2)
+    {
+        suma += 2.0 * normalPDF(a+i*h);
+    }
+    return (h/3.0)*suma;
+}
+
+
+vector<double> acumNormal(){
+    vector<double> res;
+    double acu=0.0;
+    double proba=0.0;
+    for (double i = -3.0; i < 9.0; i+=0.001)
+    {
+        proba += simpson(i, i+0.001, 10);
+        res.push_back(proba);
+    }
+    return res;
+}
+
+
+double freidora(const vector<double>& acuN) {
+    double u = random01();
+
+    int inf = -1;
+    int sup = acuN.size();
+
+    while (inf + 1 < sup) {
+        int mid = (inf + sup) / 2;
+        if (acuN[mid] < u) {
+            inf = mid;
+        } else {
+            sup = mid;
+        }
+    }
+
+    if (inf < 0) {
+        return 0.0;
+    }
+
+    double probInf = acuN[inf];
+    double probSup = acuN[sup];
+
+    double t = (u - probInf)/(probSup - probInf);
+
+    return -3.0+(inf+t)*0.001;
 }
 
 //Cliente
