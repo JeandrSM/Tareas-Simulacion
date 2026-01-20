@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 using namespace std::chrono;
-static mt19937 generator;
 
 static vector<double> binomialPostres;
 static vector<double> binomialPedidos;
@@ -155,8 +154,9 @@ double duracionFrei(const vector<double>& acuN) {
     double probSup = acuN[sup];
 
     double t = (u - probInf)/(probSup - probInf);
-
-    return -3.0+(inf+t)*0.001;
+    double resu=-3.0+(inf+t)*0.001;
+    if(resu<=0) return 0;
+    return resu;
 }
 
 double duracionPost(vector<double>& acubino){/* Recordar poner bien la proba
@@ -204,7 +204,7 @@ int cantProductos(vector<double>& acubino){/*
 
 void inicializarTablas(){
     binomialPostres = binomial(5,0.6);
-    binomialPedidos = binomial(2,2/5);
+    binomialPedidos = binomial(5,0.4);
     poisson = AcuPoisson();
     normal = acumNormal();
 }
@@ -299,6 +299,7 @@ vector<double> simulacion(Estacion &puesto, vector<double> llegadas){
     double mediaEspera = 0.0;
     
     vector<double> salidas;
+    
     
     for(int i = 0; i < llegadas.size(); i++) {
         double llegada = llegadas[i];
