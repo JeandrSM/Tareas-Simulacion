@@ -152,6 +152,7 @@ double duracion(const string& puesto) {
     if (puesto == "Pollo") {
         return duracionPollo();
     }
+    return 0.0;
     
 }
 
@@ -171,15 +172,16 @@ double proba(const string& puesto) {
     if (puesto == "Pollo") {
         return  0.3;
     }
+    return 0.0;
     
 }
 
 vector<double> simulacion(Estacion &puesto, vector<double> llegadas){
-    cout << "=================================" << puesto.nombre << "===================================" << endl;
+    /*cout << "=================================" << puesto.nombre << "===================================" << endl;
     cout << "Número de servidores: " << puesto.servidores.size() << endl;
     cout << "====================================================================" << endl;
     cout << "Llegada\t\tDuracion\tServidor\tSalida\t\tTiempo en Sistema" << endl;
-    cout << "====================================================================" << endl;
+    cout << "====================================================================" << endl;*/
     double mediaEspera = 0.0;
     
     vector<double> salidas;
@@ -188,11 +190,11 @@ vector<double> simulacion(Estacion &puesto, vector<double> llegadas){
         double llegada = llegadas[i];
         double p = proba(puesto.nombre);
         double tiro = random01();
-        if(tiro >= p) {cout << "No come, p = " << tiro << endl; continue;}
+        if(tiro >= p) {/*cout << "No come, p = " << tiro << endl;*/ continue;}
         int n = 1;
         if(puesto.nombre != "Caja"){
             n = cantProductos();
-            cout << "Pidió " << n << " productos" << endl;
+            //cout << "Pidió " << n << " productos" << endl;
         }
 
         for(int j = 0; j<n; j++){
@@ -209,21 +211,21 @@ vector<double> simulacion(Estacion &puesto, vector<double> llegadas){
             double tiempoSistema = salidaPuesto - llegada;
             mediaEspera += tiempoSistema;
 
-            cout << fixed << setprecision(4);
+            /*cout << fixed << setprecision(4);
             cout << llegada << "\t\t"
                 << duracionC << "\t\t"
                 << serv+1 << "\t\t"
                 << salidaPuesto << "\t\t"
-                << tiempoSistema << endl;}
+                << tiempoSistema << endl;*/}
     }
     
-    cout << "====================================================================" << endl;
+    //cout << "====================================================================" << endl;
 
-    if(puesto.nombre == "Caja") MEDIA_CAJA = mediaEspera/salidas.size();
-    if(puesto.nombre == "Refrescos") MEDIA_REFRE = mediaEspera/salidas.size();
-    if(puesto.nombre == "Freidora") MEDIA_FREI = mediaEspera/salidas.size();
-    if(puesto.nombre == "Postres") MEDIA_POST = mediaEspera/salidas.size();
-    if(puesto.nombre == "Pollo") MEDIA_POLL = mediaEspera/salidas.size();
+    if(puesto.nombre == "Caja") MEDIA_CAJA = mediaEspera;
+    if(puesto.nombre == "Refrescos") MEDIA_REFRE = mediaEspera;
+    if(puesto.nombre == "Freidora") MEDIA_FREI = mediaEspera;
+    if(puesto.nombre == "Postres") MEDIA_POST = mediaEspera;
+    if(puesto.nombre == "Pollo") MEDIA_POLL = mediaEspera;
     return salidas;
 
 }
@@ -231,6 +233,90 @@ vector<double> simulacion(Estacion &puesto, vector<double> llegadas){
 
 
 int main(){
+
+
+
+    int total = 12;
+    int estaciones = 5;
+    
+    // Restamos el mínimo 1 por estación
+    int restante = total - estaciones; // 7
+    double mediaMin = 99;
+    int cont = 1;
+    for (int cajaC = 0; cajaC <= restante; cajaC++) {
+        for (int refrescosC = 0; refrescosC <= restante - cajaC; refrescosC++) {
+            for (int freidoraC = 0; freidoraC <= restante - cajaC - refrescosC; freidoraC++) {
+                for (int postresC = 0; postresC <= restante - cajaC - refrescosC - freidoraC; postresC++) {
+    
+                    int polloC = restante - cajaC - refrescosC - freidoraC - postresC;
+                    cout << cont << ". " <<
+                        "Caja: " << (cajaC + 1) <<
+                        ", Refrescos: " << (refrescosC + 1) <<
+                        ", Freidora: " << (freidoraC + 1) <<
+                        ", Postres: " << (postresC + 1) <<
+                        ", Pollo: " << (polloC + 1)
+                     << endl;
+
+                    double mediaConfiguracion = 0.0;
+                    for(int i = 0; i<1000; i++){
+
+                        Estacion caja(cajaC+1, "Caja");
+                        Estacion refrescos(refrescosC+1, "Refrescos");
+                        Estacion freidora(freidoraC+1, "Freidora");
+                        Estacion postres(postresC+1, "Postres");
+                        Estacion pollo(polloC+1, "Pollo");
+                           
+                        vector<double> salidasRefrescos;
+                        vector<double> salidasFreidora;
+                        vector<double> salidasPostres;
+                        vector<double> salidasPollo;
+                        vector<double> llegadas = generarLlegadas(480);
+                        vector<double> salidasCaja = simulacion(caja, llegadas);
+                        sort(salidasCaja.begin(), salidasCaja.end());
+
+                        
+                        salidasRefrescos = simulacion(refrescos, salidasCaja);
+                        
+                        salidasFreidora = simulacion(freidora, salidasCaja);
+                        
+                        salidasPostres = simulacion(postres, salidasCaja);
+                        
+                        salidasPollo = simulacion(pollo, salidasCaja);
+
+
+                        double sumaTotalEspera =
+                                MEDIA_CAJA +
+                                MEDIA_REFRE +
+                                MEDIA_FREI +
+                                MEDIA_POST +
+                                MEDIA_POLL
+                                ;
+
+                        int totalClientes =
+                                salidasCaja.size() +
+                                salidasRefrescos.size() +
+                                salidasFreidora.size() +
+                                salidasPostres.size() +
+                                salidasPollo.size();
+
+                        double MEDIA_TOTAL = sumaTotalEspera / totalClientes;
+                        mediaConfiguracion += MEDIA_TOTAL;
+
+                    }
+                    cont++;
+                    mediaConfiguracion /= 1000.0;
+                    cout << "Media TOTAL configuracion = "
+                        << mediaConfiguracion << endl << endl;
+                    mediaMin = min(mediaMin, mediaConfiguracion);
+
+                }
+            }
+        }
+    }
+
+    cout << "Minimo : " mediaMin << " minutos de espera de Media" << endl;
+    return 0;
+    /*
     Estacion caja(3, "Caja");
     Estacion refrescos(1, "Refrescos");
     Estacion freidora(3, "Freidora");
@@ -286,5 +372,5 @@ int main(){
 
     
 
-    return 0;
+    return 0;*/
 }
