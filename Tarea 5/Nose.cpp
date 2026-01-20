@@ -7,6 +7,8 @@ static vector<double> binomialPostres;
 static vector<double> binomialPedidos;
 static vector<double> poisson;
 static vector<double> normal;
+static vector<double> geometri;
+
 
 double facto(double m){
     if(!m) return 1.0;
@@ -39,6 +41,16 @@ vector<double> binomial(int n, double p){
     return res;
 }
 
+vector<double> acuGeo(){
+    vector<double> res;
+    double acu=0.0;
+    for (int i = 1; i < 50; i++)
+    {
+        acu+= pow(0.9, i-1)*0.1;
+        res.push_back(acu);
+    }
+    return res;
+}
 double random01(){
     static mt19937 gen(random_device{}());
     static uniform_real_distribution<double> dist(0.0, 1.0);
@@ -143,10 +155,18 @@ double duracionPost(vector<double>& acubino){
     return sup;
 }
 
-double duracionPollo(double p){
+
+double duracionPollo(vector<double>& acuGeos){
     double x = random01();
-    return log(1.0 - x) / log(1.0 - p);
+    int inf = -1, sup = acuGeos.size();
+    while(inf + 1 < sup){
+        int mid = (sup + inf) / 2;
+        if(acuGeos[mid] < x) inf = mid;
+        else sup = mid;
+    }
+    return sup;
 }
+
 
 
 
@@ -155,7 +175,7 @@ double duracion(const string& puesto){
     if(puesto == "Refrescos") return duracionRefre();
     if(puesto == "Freidora") return duracionFrei(normal);
     if(puesto == "Postres") return duracionPost(binomialPostres);
-    if(puesto == "Pollo") return duracionPollo(0.1);
+    if(puesto == "Pollo") return duracionPollo(geometri);
     return 0.0;
 }
 
@@ -187,7 +207,9 @@ void inicializarTablas(){
     binomialPedidos = binomial(5, 0.4);
     poisson = AcuPoisson();
     normal = acumNormal();
+    geometri = acuGeo();
 }
+
 
 double generarTiempoEntreLlegadas(const vector<double>& acuPois){
     double x = random01();
@@ -459,3 +481,4 @@ int main(){
 
     return 0;
 }
+
