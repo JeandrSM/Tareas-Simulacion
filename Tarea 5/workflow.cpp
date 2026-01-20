@@ -314,7 +314,7 @@ int main(){
         }
     }
 
-    cout << "Minimo : " mediaMin << " minutos de espera de Media" << endl;
+    cout << "Minimo : " << mediaMin << " minutos de espera de Media" << endl;
     return 0;
     /*
     Estacion caja(3, "Caja");
@@ -374,3 +374,4 @@ int main(){
 
     return 0;*/
 }
+
