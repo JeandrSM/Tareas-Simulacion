@@ -77,6 +77,18 @@ struct Cliente{
     double salidaCaja = 0.0;
     int nProductos;
     double salidaFinal = 0.0;
+    bool _refrescos = false;
+    bool _freidora = false;
+    bool _postres = false;
+    bool _pollo = false;
+
+    bool aEstacion(string puesto){
+            if(puesto == "Refrescos") return _refrescos;
+            if(puesto == "Freidora") return _freidora;
+            if(puesto == "Postres") return _postres;
+            if(puesto == "Pollo") return _pollo;
+            return false;
+    }
 };
 
 struct Servidor{
@@ -136,6 +148,8 @@ double duracionPollo(double p){
     return log(1.0 - x) / log(1.0 - p);
 }
 
+
+
 double duracion(const string& puesto){
     if(puesto == "Caja") return duracionCaja();
     if(puesto == "Refrescos") return duracionRefre();
@@ -146,11 +160,11 @@ double duracion(const string& puesto){
 }
 
 double proba(const string& puesto){
-    if(puesto == "Caja") return 1.0;
-    if(puesto == "Refrescos") return 0.9;
-    if(puesto == "Freidora") return 0.7;
-    if(puesto == "Postres") return 0.25;
-    if(puesto == "Pollo") return 0.3;
+    if(puesto == "Caja") {return 1.0;}
+    if(puesto == "Refrescos") {return 0.9;}
+    if(puesto == "Freidora") {return 0.7;}
+    if(puesto == "Postres") {return 0.25;}
+    if(puesto == "Pollo") {return 0.3;}
     return 0.0;
 }
 
@@ -166,6 +180,7 @@ int cantProductos(vector<double>& acubino){
 }
 
 /* ================= SIMULACIÓN ================= */
+
 
 void inicializarTablas(){
     binomialPostres = binomial(5, 0.6);
@@ -189,6 +204,13 @@ double generarTiempoEntreLlegadas(const vector<double>& acuPois){
 
 void simularCaja(Estacion& caja, vector<Cliente>& clientes){
     for(Cliente& c : clientes){
+        c.nProductos = cantProductos(binomialPedidos); 
+
+        c._refrescos = random01() <= proba("Refrescos"); 
+        c._freidora = random01() <= proba("Freidora") ; 
+        c._postres = random01() <= proba("Postres") ; 
+        c._pollo = random01() <= proba("Pollo") ; 
+        
         auto [salida, srv] = caja.procesar(c.llegada, duracion("Caja"));
         c.salidaCaja = salida;
         c.salidaFinal = salida;
@@ -197,7 +219,7 @@ void simularCaja(Estacion& caja, vector<Cliente>& clientes){
 
 void simularEstacion(Estacion& est, vector<Cliente>& clientes){
     for(Cliente& c : clientes){
-        if(random01() >= proba(est.nombre)) continue;
+        if(!c.aEstacion(est.nombre)) continue;
         for(int i = 0; i < c.nProductos; i++){
             auto [salida, srv] =
                 est.procesar(c.salidaCaja, duracion(est.nombre));
@@ -212,6 +234,13 @@ void simularCajaUNO(Estacion& caja, vector<Cliente>& clientes){
     cout << "------------------------------------------------\n"; 
     cout << fixed << setprecision(4); 
     for(Cliente& c : clientes){
+        c.nProductos = cantProductos(binomialPedidos); 
+
+        c._refrescos = random01() <= proba("Refrescos"); 
+        c._freidora = random01() <= proba("Freidora") ; 
+        c._postres = random01() <= proba("Postres") ; 
+        c._pollo = random01() <= proba("Pollo") ; 
+
         double dur = duracion("Caja");
         auto [salida, srv] = caja.procesar(c.llegada, dur);
         c.salidaCaja = salida;
@@ -219,9 +248,11 @@ void simularCajaUNO(Estacion& caja, vector<Cliente>& clientes){
         
         cout << c.llegada << "\t\t" 
              << dur << "\t\t" 
-             << srv << "\t\t"
+             << srv+1 << "\t\t"
              << salida << "\t\t" 
-             << (salida - c.llegada) << "\n"; } }
+             << (salida - c.llegada) << "\n"; 
+    } 
+}
 
 void simularEstacionUNO(Estacion& est, vector<Cliente>& clientes){
     cout << "\n==================== " << est.nombre << " ====================\n"; 
@@ -229,7 +260,7 @@ void simularEstacionUNO(Estacion& est, vector<Cliente>& clientes){
     cout << "-------------------------------------------------------------\n"; 
     cout << fixed << setprecision(4); 
     for(Cliente& c : clientes){
-        if(random01() >= proba(est.nombre)) continue;
+        if(!c.aEstacion(est.nombre)) continue;
         for(int i = 0; i < c.nProductos; i++){
             double dur = duracion(est.nombre);
             auto [salida, srv] =
@@ -238,14 +269,60 @@ void simularEstacionUNO(Estacion& est, vector<Cliente>& clientes){
 
             cout << c.salidaCaja << "\t\t" 
             << dur << "\t\t" 
-            << srv << "\t\t"
+            << srv+1 << "\t\t"
             << salida << "\t\t" 
             << (salida - c.llegada) << "\n"; 
         } 
     } 
 }
 
-void hacerUno(){ 
+
+void imprimirClientes(const vector<Cliente>& clientes){
+    cout << "\n==================== CLIENTES ====================\n";
+    cout << "ID  Llegada   Prod  Ref   Frei  Post   Pollo  SalCaja    SalFinal  T_Sistema\n";
+    cout << "--------------------------------------------------------------------\n";
+
+    cout << fixed << setprecision(3);
+
+    int id = 1;
+
+    // ===== CONTADORES =====
+    int cntRef = 0;
+    int cntFrei = 0;
+    int cntPost = 0;
+    int cntPollo = 0;
+
+    for(const Cliente& c : clientes){
+
+        if(c._refrescos) {cntRef += c.nProductos; }
+        if(c._freidora)  {cntFrei += c.nProductos; }
+        if(c._postres)   {cntPost += c.nProductos; }
+        if(c._pollo)     {cntPollo += c.nProductos; }
+
+        cout << setw(2) << id++ << "  "
+             << setw(7) << c.llegada << "  "
+             << setw(4) << c.nProductos << "   "
+             << setw(3) << (c._refrescos ? "Si" : "No") << "  "
+             << setw(4) << (c._freidora ? "Si" : "No") << "  "
+             << setw(4) << (c._postres  ? "Si" : "No") << "   "
+             << setw(5) << (c._pollo    ? "Si" : "No") << "   "
+             << setw(7) << c.salidaCaja << "   "
+             << setw(8) << c.salidaFinal << "   "
+             << setw(9) << (c.salidaFinal - c.llegada)
+             << "\n";
+    }
+
+    // ===== RESUMEN =====
+    cout << "\n==================== RESUMEN ESTACIONES ====================\n";
+    cout << "Total clientes: " << clientes.size() << "\n";
+    cout << "Refrescos : " << cntRef   << "\n";
+    cout << "Freidora  : " << cntFrei  << "\n";
+    cout << "Postres   : " << cntPost  << "\n";
+    cout << "Pollo     : " << cntPollo << "\n";
+}
+
+
+void hacerUno(){   
     vector<Cliente> clientes; 
     double t = 0.0; 
     double mediaConfig = 0.0; 
@@ -254,18 +331,18 @@ void hacerUno(){
         if(t >= 480) break; 
         Cliente c; 
         c.llegada = t; 
-        c.nProductos = cantProductos(binomialPedidos); 
         clientes.push_back(c); 
-    } 
+    }
     Estacion caja(2, "Caja"); 
     Estacion ref(1, "Refrescos"); 
-    Estacion frei(2, "Freidora"); 
-    Estacion post(3, "Postres"); 
+    Estacion frei(3, "Freidora"); 
+    Estacion post(2, "Postres"); 
     Estacion pollo(4, "Pollo"); 
     simularCajaUNO(caja, clientes); 
     sort(clientes.begin(), clientes.end(), 
     [](const Cliente& a, const Cliente& b)
     { return a.salidaCaja < b.salidaCaja; });
+
     simularEstacionUNO(ref, clientes); 
     simularEstacionUNO(frei, clientes); 
     simularEstacionUNO(post, clientes); 
@@ -275,15 +352,19 @@ void hacerUno(){
         suma += c.salidaFinal - c.llegada;
 
     mediaConfig += suma / clientes.size();
-     cout << "Media " << mediaConfig << endl; 
+
+    cout << "Media " << mediaConfig << endl;
+
+    imprimirClientes(clientes);
 }
 
 /* ================= MAIN ================= */
 
+
 int main(){
 
     inicializarTablas();
-    //hacerUno(); /*
+    hacerUno(); /*
     const int TOTAL_SERVIDORES = 12;
     const int REPETICIONES = 1000;
 
@@ -328,9 +409,10 @@ int main(){
                     return a.salidaCaja < b.salidaCaja;
                 });
 
-            simularEstacion(ref, clientes);
-            simularEstacion(frei, clientes);
-            simularEstacion(post, clientes);
+
+            simularEstacion(ref, clientes); 
+            simularEstacion(frei, clientes); 
+            simularEstacion(post, clientes); 
             simularEstacion(pollo, clientes);
 
             double suma = 0.0;
