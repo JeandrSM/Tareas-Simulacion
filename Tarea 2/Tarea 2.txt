@@ -1,0 +1,115 @@
+
+11. Ejercicios.
+==============
+
+
+() Ejercicio 1
+
+Utilice el método congruencial binario pero en lugar de realizar un xor con las posiciones 0 y 1, de derecha a izquierda, realice un xor con las posiciones 0 y 2. Utilice las siguientes semillas y muestre si realiza todo el recorrido o no.
+
+a. x(0) = 110
+
+b. x(0) = 1111
+
+
+
+() Ejercicio 2
+
+Para 5 bits construya un método congruencial binario que realice un recorrido completo. Indique cuál es la semilla y cuál es la operación que realiza.
+
+
+
+() Ejercicio 3
+
+Genere 50 números aleatorios de 4 dígitos utilizando el generador de cuadrados medios utilizando los siguientes parámetros.
+
+a. x(0) = 3567345
+
+b. x(0) = 1234500012
+
+c. x(0) = 4567234902
+
+
+
+() Ejercicio 4
+
+Determine para cada generador congruencial mixto que se presenta a continuación si cumple con todo el período de m.
+
+a. x(0)   = 7
+   x(n+1) = ( 5 * x(n) + 24) mod 32
+
+b. x(0)   = 8
+   x(n+1) = ( 9 * x(n) + 13) mod 32
+
+c. x(0)   = 13
+   x(n+1) = (50 * x(n) + 17) mod 64
+
+d. x(0)   = 15
+   x(n+1) = ( 8 * x(n) + 16) mod 100
+
+e. x(0)   = 3
+   x(n+1) = ( 5 * x(n) + 21) mod 100
+
+
+
+
+() Ejercicio 5
+
+Determine para cada generador congruencial multiplicativo que se presenta a continuación si cumple con todo el período de m. La expresión a**b significa a elevado a la potencia b.
+
+a. x(0)   = 7
+   x(n+1) = (5 * x(n)) mod 2**6
+
+b. x(0)   = 9
+   x(n+1) = (11 * x(n)) mod 2**7
+
+c. x(0)   = 3
+   x(n+1) = (221 * x(n)) mod 10**3
+
+d. x(0)   = 17
+   x(n+1) = (203 * x(n)) mod 10**5
+
+e. x(0)   = 19
+   x(n+1) = (211 * x(n)) mod 10**8
+
+
+
+() Ejercicio 6
+
+Utilice el método congruencial mixto y encuentre los parámetros adecuados de x(0), b, c y m para generar un recorrido completo de números entre 0 y 14.
+
+
+
+() Ejercicio 7
+
+Defina los parámetros de a, c, x(0) para un recorrido completo con el valor de m = 9.
+
+
+
+() Ejercicio 8
+
+Defina los parámetros de a, c, x(0) para un recorrido completo con el valor de m = 19.
+
+
+
+
+() Ejercicio 9
+
+Utilizando las variantes del método congruencial mixto, el método congruencial multiplicativo y el método congruencial aditivo encuentre generadores para números de 0 hasta 9 que tengan un recorrido completo.
+
+
+
+
+() Ejercicio 10
+
+Se tiene un generador aleatorio de un sólo dígito. Es decir puede generar de manera uniforme los valores 0,1,2,3,4,5,6,7,8 y 9. Para cada uno de los siguientes fenómenos indique como utilizaría este generador.
+
+a. Para generar una moneda legal, con 0.50 de probabilidad de que salga corona y 0.50 de probabilidad que salga escudo.
+
+b. Para generar el siguiente fenómeno, probabilidad de a es 0.10, la probabilidad de b es 0.40 y la probabilidad de c es 0.50.
+
+c. Para generar los valores de arrojar un dado.
+
+d. Si en lugar de un generador aleatorio entre [0,9] se tiene un generador de números aleatorios entre [0,99] indique cómo realizaría la asignación de probabilidades anterior.
+
+
